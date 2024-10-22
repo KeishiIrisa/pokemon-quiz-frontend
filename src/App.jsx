@@ -11,8 +11,11 @@ const fetchPokemon = async (id) => {
 function App() {
   const [pokemon, setPokemon] = useState(null);
 
-  const handleFetchPokemon = async () => {
-    const data = await fetchPokemon(803);
+  const handleFetchPokemon = async (e) => {
+    e.preventDefault();
+    const formdata = new FormData(e.target);
+    const poke_id = formdata.get("poke_id")
+    const data = await fetchPokemon(poke_id);
     setPokemon(data);
     console.dir(data, { depth: null });
   }
@@ -25,7 +28,7 @@ function App() {
         <p className="text-gray-700">
           Enjoy pokemon quiz!
         </p>
-        <button className="bg-black text-white hover:bg-gray-700 flex mx-auto rounded-xl py-4 px-8" type="button" onClick={handleFetchPokemon}>Click here</button>
+        <form onSubmit={handleFetchPokemon}><input name="poke_id"/><button type="submit">Search</button></form>
       </div>
       {/* quiz card */}
       <div className="flex justify-center">
@@ -38,6 +41,19 @@ function App() {
           ) : (
             <p className="text-center text-xl ">No such a pokemon</p>
           )}
+        </div>
+      </div>
+      {/* description card */}
+      <div className="flex justify-center">
+        <div className="bg-white w-[700px] rounded-xl p-8 border-2 border-gray-300">
+          <div className="flex items-center">
+            <h2 className="font-bold">タイプ</h2>
+            {pokemon && pokemon.types.map((type, index) => (
+              <span key={index} className="font-semibold text-gray-700 ml-2">
+                {type.type.name}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
       {/* Footer */}
