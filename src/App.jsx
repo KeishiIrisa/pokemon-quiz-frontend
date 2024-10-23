@@ -69,10 +69,11 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupData, setPopupData] = useState(null);
   /*
-  interface PopupData {
+  interface PopupData [{
     popupTitle: string;
     popupContent: string;
-  }
+    selected: false
+  }, ,,,]
   */
 
 
@@ -95,11 +96,28 @@ function App() {
 
     const pokedescriptions = selectPokemonDescription(updatedPokemon);
 
+    // set ability details to popupData
+    const popupDatas = [];
+    for (const ability of abilitiesDatas) {
+      const flavor_en = ability.flavor_text_entries.filter(entry => entry.language.name === 'en')[0] || null;
+      if (flavor_en) {
+        popupDatas.push({
+          popupTitle: ability.name,
+          popupContent_en: flavor_en.flavor_text,
+          selected: false
+        }
+        )         
+      }
+    }
+    setPopupData(popupDatas);
+
     setPokemon({
       ...updatedPokemon,
       pokedescriptions: pokedescriptions,
       pokeabilities: abilitiesDatas
     });
+
+
     };
 
     fetchPokemonDetails();
@@ -113,8 +131,21 @@ function App() {
     setPokeId(poke_id);
   }
 
-  const togglePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
+
+  const showPopup = (index) => {
+    setPopupData(popupData.map((item, i) => ({
+      ...item,
+      selected: i === index
+    })));
+    setIsPopupOpen(true);
+  }
+
+  const closePopup = () => {
+    setPopupData(popupData.map((item, i) => ({
+      ...item,
+      selected: false
+    })));
+    setIsPopupOpen(false)
   }
 
 
@@ -169,15 +200,7 @@ function App() {
                   {ability.name}
                 </span>
                 {/* TODO: do not execute setPopupData on clicking element, execute this when handleFethPokemon is executed */}
-                <button onClick={() => {
-                  const flavor_en = ability.flavor_text_entries.filter(entry => entry.language.name === 'en')[0] || null;
-                  if (flavor_en) {
-                    setPopupData({
-                      popupTitle: ability.name,
-                      popupContent_en: flavor_en.flavor_text
-                    }) ;         
-                  }
-                }}>特性❔</button>
+                <button onClick={() => showPopup(index)}>特性❔</button>
               </>
 
             ))}
@@ -193,19 +216,19 @@ function App() {
         </div>
       </div>
       {/* ポップアップカード */}
-      {isPopupOpen && popupData && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={togglePopup}>
+      {isPopupOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={closePopup}>
           {/* シャドー */}
           <div className="bg-white rounded-xl shadow-md  w-[700px]">
             {/* hero_popup */}
             <div className="bg-gray-300 rounded-tl-xl rounded-tr-xl pt-2 pr-2 pl-2 pb-2 flex items-center justify-between">
-              <h2>popupData.popupTitle</h2>
-              <button onClick={togglePopup} className="flex">
+              <h2>{popupData.find(data => data.selected === true)?.popupTitle}</h2>
+              <button onClick={closePopup} className="flex">
                 <X></X>
               </button>
             </div>
             {/* content_popup */}
-            <div className="p-2">{popupData.popupContent_en}</div>
+            <div className="p-2">{popupData.find(data => data.selected === true)?.popupContent_en}</div>
           </div>
         </div>
       )}
