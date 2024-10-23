@@ -4,6 +4,7 @@ import PokemonDescriptionCard from "./components/PokemonDescriptionCard";
 import { fetchPokemon, fetchPokemonSpecies, fetchPokemonAbilityDescription } from "./services/pokemonService";
 import { selectPokemonDescription } from "./utils/pokemonUtils";
 import PokemonDetailsCard from "./components/PokemonDetailsCard";
+import PopupCard from "./components/PopupCard";
 
 
 // learn English with Pokemon
@@ -126,20 +127,7 @@ function App() {
       {/* ポップアップカード */}
       {isPopupOpen && (
         // シャドー
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={closePopup}>
-          {/* container */}
-          <div className="bg-white rounded-xl shadow-md  w-[700px]">
-            {/* hero_popup */}
-            <div className="bg-gray-300 rounded-tl-xl rounded-tr-xl p-4 flex items-center justify-between">
-              <h2>{popupData.find(data => data.selected === true)?.popupTitle}</h2>
-              <button onClick={closePopup} className="flex">
-                <X></X>
-              </button>
-            </div>
-            {/* content_popup */}
-            <p className="p-10">{popupData.find(data => data.selected === true)?.popupContent_en}</p>
-          </div>
-        </div>
+        <PopupCard popupData={popupData} closePopup={closePopup} />
       )}
       {/* Footer */}
       <footer></footer>
