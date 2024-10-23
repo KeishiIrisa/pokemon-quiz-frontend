@@ -1,67 +1,14 @@
 import { useEffect, useState } from "react"
-import { X } from "lucide-react";
+import { X, CircleHelp, CircleHelpIcon } from "lucide-react";
+import PokemonDescriptionCard from "./components/PokemonDescriptionCard";
+import { fetchPokemon, fetchPokemonSpecies, fetchPokemonAbilityDescription } from "./services/pokemonService";
+import { selectPokemonDescription } from "./utils/pokemonUtils";
+import PokemonDetailsCard from "./components/PokemonDetailsCard";
 
 
 // learn English with Pokemon
 // アプリのコンセプトは、ポケモンの紹介（英語表記）、体重、重さなどからポケモンを推測→日本語和訳、シルエットなどのヒントに応じてポイント獲得数が減少→トータルスコアで競う、
 
-
-const fetchPokemon = async (id) => {
-  const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon/${id}`
-  );
-  return await response.json();
-}
-
-
-// pokemonSpecies includes description about the pokemon such as ""This POKéMON has electricity-storing\npouches on its cheeks. These appear to\nbecome electrically charged during the\fnight while PIKACHU sleeps.\nIt occasionally discharges electricity\nwhen it is dozy after waking up.""
-const fetchPokemonSpecies = async (id) => {
-  const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon-species/${id}`
-  );
-  return await response.json();
-}
-
-
-// pokemonAbility includes the description of ability the pokemon has.
-const fetchPokemonAbilityDescription = async (abilities) => {
-  const abilitiesDatas = [];
-
-  for (const ability of abilities) {
-    const response = await fetch(ability.ability.url);
-    const data = await response.json()
-    abilitiesDatas.push(data);
-  }
-  
-  return abilitiesDatas;
-}
-
-
-// pokemon description is array object, so it includes various language description, so this function select two english and japanese sentences which has same meaning.
-const selectPokemonDescription = (updatedPokemon) => {
-  if (updatedPokemon.pokespecies.flavor_text_entries) {
-    // getting japanese flavor text
-    const flavors_ja = updatedPokemon.pokespecies.flavor_text_entries
-    .filter(entry => entry.language.name === 'ja');
-    // getting english flavor text
-    const flavors_en = updatedPokemon.pokespecies.flavor_text_entries
-    .filter(entry => entry.language.name === 'en');
-
-    const pokemonDescriptions = flavors_ja.map(entry_ja => {
-      const entry_en = flavors_en.find(entry_en => entry_en.version.name === entry_ja.version.name);
-      if (entry_en) {
-        return {
-          ja: entry_ja,
-          en: entry_en,
-          version: entry_en.version.name
-        };
-      }
-      return null;
-    }).filter(entry => entry !== null);
-    
-    return pokemonDescriptions[0]
-  };
-}
 
 function App() {
   const [pokeId, setPokeId] = useState(null);
@@ -172,63 +119,25 @@ function App() {
           )}
         </div>
       </div>
-      {/* description card */}
-      <div className="flex justify-center">
-        <div className="bg-white w-[700px] rounded-xl p-8 border-4 border-gray-300 space-y-4">
-          {/* タイプ */}
-          <div className="flex items-center">
-            <h2>タイプ：</h2>
-            {pokemon && pokemon.types.map((type, index) => (
-              <span key={index} className="ml-2">
-                {type.type.name}
-              </span>
-            ))}
-          </div>
-          {/* 高さ、重さ */}
-          <div className="flex items-center">
-            <h2>高さ：</h2>
-            <span className="ml-2 mr-6">{pokemon && `${(pokemon.height/10).toFixed(1)}m`}</span>
-            <h2>重さ：</h2>
-            <span className="ml-2">{pokemon && `${(pokemon.weight/10).toFixed(1)}kg`}</span>
-          </div>
-          {/* 特性 */}
-          <div className="flex items-center">
-            <h2>特性：</h2>
-            {pokemon && pokemon.pokeabilities.map((ability, index) => (
-              <>
-                <span key={index} className="ml-2">
-                  {ability.name}
-                </span>
-                {/* TODO: do not execute setPopupData on clicking element, execute this when handleFethPokemon is executed */}
-                <button onClick={() => showPopup(index)}>特性❔</button>
-              </>
-
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* details card */}
+      <PokemonDetailsCard pokemon={pokemon} showPopup={showPopup} />
       {/* ポケモン解説カード */}
-      <div className="flex justify-center">
-        <div className="bg-white w-[700px] rounded-xl p-8 border-4 border-gray-300 space-y-4 flex flex-col">
-          <span>{pokemon && pokemon.pokedescriptions.ja.flavor_text}</span>
-          <span>{pokemon && pokemon.pokedescriptions.en.flavor_text}</span>
-          <span className="flex justify-end">{pokemon && `From ${pokemon && pokemon.pokedescriptions.version}`}</span>
-        </div>
-      </div>
+      <PokemonDescriptionCard pokemon={pokemon} />
       {/* ポップアップカード */}
       {isPopupOpen && (
+        // シャドー
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" onClick={closePopup}>
-          {/* シャドー */}
+          {/* container */}
           <div className="bg-white rounded-xl shadow-md  w-[700px]">
             {/* hero_popup */}
-            <div className="bg-gray-300 rounded-tl-xl rounded-tr-xl pt-2 pr-2 pl-2 pb-2 flex items-center justify-between">
+            <div className="bg-gray-300 rounded-tl-xl rounded-tr-xl p-4 flex items-center justify-between">
               <h2>{popupData.find(data => data.selected === true)?.popupTitle}</h2>
               <button onClick={closePopup} className="flex">
                 <X></X>
               </button>
             </div>
             {/* content_popup */}
-            <div className="p-2">{popupData.find(data => data.selected === true)?.popupContent_en}</div>
+            <p className="p-10">{popupData.find(data => data.selected === true)?.popupContent_en}</p>
           </div>
         </div>
       )}

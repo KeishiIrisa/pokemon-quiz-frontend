@@ -6,6 +6,6 @@ h2 {
     @apply text-xl font-bold;
 }
 
-span {
+p {
     @apply text-xl  font-light text-black;
 }
