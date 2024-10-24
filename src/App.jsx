@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { X, CircleHelp, CircleHelpIcon } from "lucide-react";
+import { Play } from "lucide-react";
 import PokemonDescriptionCard from "./components/PokemonDescriptionCard";
 import { fetchPokemon, fetchPokemonSpecies, fetchPokemonAbilityDescription } from "./services/pokemonService";
 import { selectPokemonDescription } from "./utils/pokemonUtils";
 import PokemonDetailsCard from "./components/PokemonDetailsCard";
 import PopupCard from "./components/PopupCard";
+import PokemonQuizCard from "./components/PokemonQuizCard";
 
 
 // learn English with Pokemon
@@ -19,7 +20,8 @@ function App() {
   /*
   interface PopupData [{
     popupTitle: string;
-    popupContent: string;
+    popupContent_en: string;
+    popupContent_ja: string;
     selected: false
   }, ,,,]
   */
@@ -48,10 +50,13 @@ function App() {
     const popupDatas = [];
     for (const ability of abilitiesDatas) {
       const flavor_en = ability.flavor_text_entries.filter(entry => entry.language.name === 'en')[0] || null;
+      const flavor_ja = ability.flavor_text_entries.filter(entry => entry.language.name === 'ja')[0] || null;
+
       if (flavor_en) {
         popupDatas.push({
           popupTitle: ability.name,
           popupContent_en: flavor_en.flavor_text,
+          popupContent_ja: flavor_ja.flavor_text,
           selected: false
         }
         )         
@@ -72,10 +77,8 @@ function App() {
   }, [pokeId])
 
 
-  const handleSetPokeId = async (e) => {
-    e.preventDefault();
-    const formdata = new FormData(e.target);
-    const poke_id = formdata.get("poke_id")
+  const handleSetPokeId = async () => {
+    const poke_id = Math.floor(Math.random() * 1025) + 1;
     setPokeId(poke_id);
   }
 
@@ -89,7 +92,7 @@ function App() {
   }
 
   const closePopup = () => {
-    setPopupData(popupData.map((item, i) => ({
+    setPopupData(popupData.map((item) => ({
       ...item,
       selected: false
     })));
@@ -105,21 +108,17 @@ function App() {
         <p className="text-gray-700">
           Enjoy pokemon quiz!
         </p>
-        <form onSubmit={handleSetPokeId}><input name="poke_id"/><button type="submit">Search</button></form>
+        <button
+          className="bg-black text-white hover:bg-gray-700 flex mx-auto rounded-xl py-4 px-8"
+          type="button"
+          onClick={handleSetPokeId}
+        >
+          <Play className="mr-4"/>
+          New Pokemon Quiz
+        </button>
       </div>
       {/* quiz card */}
-      <div className="flex justify-center">
-        <div className="bg-gradient-to-br from-blue-400 to-slate-400 shadow-md space-y-12 rounded-xl w-[700px] min-h-96 p-8">
-          {pokemon ? (
-            <>
-              <p className="text-center text-xl ">{pokemon.species.name}</p>
-              <img className="flex mx-auto h-64 w-64" src={pokemon.sprites.front_default} alt="" />
-            </>
-          ) : (
-            <p className="text-center text-xl ">No such a pokemon</p>
-          )}
-        </div>
-      </div>
+      <PokemonQuizCard pokemon={pokemon} />
       {/* details card */}
       <PokemonDetailsCard pokemon={pokemon} showPopup={showPopup} />
       {/* ポケモン解説カード */}
