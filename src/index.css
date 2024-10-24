@@ -12,4 +12,5 @@ p {
 
 .blur {
     filter: grayscale(100%) blur(15px);
+    /* filter: blur(15px); */
 }

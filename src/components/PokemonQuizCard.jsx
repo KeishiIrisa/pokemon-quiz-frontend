@@ -13,7 +13,6 @@ const PokemonQuizCard = ({pokeId, pokemon, onSetPokeId}) => {
         setAnswerCandidates([]);
         setPokemonNameJaName(null);
         setIsImgHidden(true);
-
         if (pokemon) {
             const pokemon_name_ja = pokemon.pokespecies.names.find(entry => entry.language.name === 'ja-Hrkt') || null;
             const name = pokemon_name_ja ? pokemon_name_ja.name : null;
@@ -33,17 +32,21 @@ const PokemonQuizCard = ({pokeId, pokemon, onSetPokeId}) => {
             setIsImgHidden(false);
             const timer = setTimeout(() => {
                 onSetPokeId();
-            }, 500);
+            }, 1000);
 
             return () => clearTimeout(timer);
         } else if (!isAnswerCorrect) {
             const timer = setTimeout(() => {
                 setIsAnswerCorrect(null);
-            }, 500);
+            }, 800);
 
             return () => clearTimeout(timer);
         }
     }, [isAnswerCorrect, onSetPokeId])
+
+    const handleSetIsHiddenToFalse = () => {
+        setIsImgHidden(false);
+    }
 
 
 
@@ -68,7 +71,7 @@ const PokemonQuizCard = ({pokeId, pokemon, onSetPokeId}) => {
                     <div className="flex flex-row justify-center m-8 items-center">
                         <img className= {`flex mx-auto h-64 w-64 ${isImgHidden ? 'blur' : ''}`} src={pokemon.sprites.front_default} alt="" />
                         {/* AnswerInputCard */}
-                        <AnswerInputCard pokeId={pokeId} answer_candidates={answerCandidates} pokemon_name_ja_name={pokemonNameJaName} onAnswerSubmit={handleAnswerSubmit} onSetPokeId={onSetPokeId}/>
+                        <AnswerInputCard pokeId={pokeId} answer_candidates={answerCandidates} pokemon_name_ja_name={pokemonNameJaName} onSetIsHiddenToFalse={handleSetIsHiddenToFalse} onAnswerSubmit={handleAnswerSubmit} onSetPokeId={onSetPokeId}/>
                     </div>
                 ) : (
                     <p className="text-center text-xl ">スタートボタン押してね</p>

@@ -1,9 +1,13 @@
 import { Languages } from "lucide-react";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import LanguageToggleButton from "./LanguageToggleButton";
 
-const PokemonDescriptionCard = ({ pokemon }) => {
+const PokemonDescriptionCard = ({ pokemon, pokeId }) => {
     const [isEnglish, setIsEnglish] = useState(true);
+
+    useEffect(() => {
+        setIsEnglish(true);
+    }, [pokeId])
 
     return (
     <div className="flex justify-center">
