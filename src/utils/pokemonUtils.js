@@ -29,3 +29,21 @@ export const selectPokemonDescription = (updatedPokemon) => {
     return pokemonDescriptions[0];
   }
 };
+
+export const getRandomKatakanaCharacter = () => {
+  const characters =
+    "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンガギグゲゴザジズゼゾダヂヅデドバビブベボパピプペポァィゥェォャュョッ";
+  return characters.charAt(Math.floor(Math.random() * characters.length));
+};
+
+export const generateAnswerCandidates = (answer) => {
+  let candidates = answer;
+  while (candidates.length < 10) {
+    const randomChar = getRandomKatakanaCharacter();
+    if (!candidates.includes(randomChar)) {
+      candidates.push(randomChar);
+    }
+  }
+  candidates.sort(() => Math.random() - 0.5);
+  return candidates;
+};

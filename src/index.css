@@ -9,3 +9,7 @@ h2 {
 p {
     @apply text-xl  font-light text-black;
 }
+
+.blur {
+    filter: grayscale(100%) blur(15px);
+}

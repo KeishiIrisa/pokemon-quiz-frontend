@@ -70,7 +70,6 @@ function App() {
       pokeabilities: abilitiesDatas
     });
 
-
     };
 
     fetchPokemonDetails();
@@ -78,7 +77,7 @@ function App() {
 
 
   const handleSetPokeId = async () => {
-    const poke_id = Math.floor(Math.random() * 1025) + 1;
+    const poke_id = Math.floor(Math.random() * 900) + 1;
     setPokeId(poke_id);
   }
 
@@ -118,7 +117,7 @@ function App() {
         </button>
       </div>
       {/* quiz card */}
-      <PokemonQuizCard pokemon={pokemon} />
+      <PokemonQuizCard pokeId={pokeId} pokemon={pokemon} onSetPokeId={handleSetPokeId}/>
       {/* details card */}
       <PokemonDetailsCard pokemon={pokemon} showPopup={showPopup} />
       {/* ポケモン解説カード */}
