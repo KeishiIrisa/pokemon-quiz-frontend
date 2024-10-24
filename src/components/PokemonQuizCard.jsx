@@ -61,11 +61,6 @@ const PokemonQuizCard = ({pokeId, pokemon, onSetPokeId}) => {
             <div className="g-white w-[700px] rounded-xl border-4 border-gray-300 space-y-4">
                 <div>
                     <div className="flex bg-black h-16 text-xl font-black text-white rounded-tr-xl rounded-tl-xl items-center justify-center">Question</div>
-                    {isAnswerCorrect !== null && (
-                        <p className="text-center text-xl">
-                            {isAnswerCorrect ? "Correct" : "Wrong"}
-                        </p>
-                    )}
                 {pokemon ? (
                     // Pokemon Image and AnswerInput Card
                     <div className="flex flex-row justify-center m-8 items-center">

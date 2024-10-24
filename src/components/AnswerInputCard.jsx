@@ -5,10 +5,13 @@ const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSet
     const [currentAnswer, setCurrentAnswer] = useState("");
     const [isSkipped, setIsSkipped] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
+    const [isWrong, setIsWrong] = useState(false);
 
     useEffect(() => {
         setCurrentAnswer("");
         setIsSkipped(false);
+        setIsCorrect(false);
+        setIsWrong(false);
     }, [pokeId])
 
     const checkAnswer = (answer) => {
@@ -17,13 +20,24 @@ const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSet
 
     const handleSubmit = () => {
         const isCorrect = checkAnswer(currentAnswer);
-        onAnswerSubmit(isCorrect)
+        if (isCorrect) {
+            setIsWrong(!isCorrect);
+            setIsCorrect(isCorrect);
+        } else {
+            setIsWrong(!isCorrect);
+            setIsCorrect(isCorrect);
+            setTimeout(() => {
+                setCurrentAnswer("");
+                setIsWrong(false)
+            }, 600);
+        }
+        onAnswerSubmit(isCorrect);
+
     }
 
     const handleDeleteLastChar = () => {
         if (currentAnswer.length > 0) {
             setCurrentAnswer(currentAnswer.slice(0, -1));
-
         }
     }
 
@@ -36,9 +50,13 @@ const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSet
     }
 
     return (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center relative">
             {/* current answer box */}
-            <div className="flex bg-white rounded-md border-2 border-black font-black text-3xl mb-8 w-full h-10 justify-center items-center" ><p>{!isSkipped ? currentAnswer: <span className="text-red-600">{pokemon_name_ja_name}</span>}</p></div>
+            <div className={`flex rounded-md border-2 ${!isWrong ? 'border-black bg-white' : 'border-pink-500 bg-pink-300 shake'} font-black text-3xl mb-8 w-full h-10 justify-center items-center`} ><p>{!isSkipped ? currentAnswer: <span className="text-red-600">{pokemon_name_ja_name}</span>}</p></div>
+            {/* red circle */}
+            {isCorrect && (
+                <div className="absolute top-1/2 left-1/2 w-72 h-72 border-4 border-pink-500 rounded-full z-10 transform -translate-x-1/2 -translate-y-1/2"></div>
+            )}
             {/* answer candidates box */}
             <div className="inline-grid grid-cols-5 gap-4">
                 {answer_candidates && answer_candidates.map((char, index) => (
