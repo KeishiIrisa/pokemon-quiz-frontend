@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useGameContext } from "./GameContext";
 import { Play } from "lucide-react";
 import PokemonDescriptionCard from "./components/PokemonDescriptionCard";
 import { fetchPokemon, fetchPokemonSpecies, fetchPokemonAbilityDescription } from "./services/pokemonService";
@@ -13,10 +14,10 @@ import PokemonQuizCard from "./components/PokemonQuizCard";
 
 
 function App() {
-  const [pokeId, setPokeId] = useState(null);
-  const [pokemon, setPokemon] = useState(null);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [popupData, setPopupData] = useState(null);
+  const {state, dispatch} = useGameContext();
+
+  // getting these states from state which was got from useGameContext
+  const {pokeId, pokemon, collectedPokemon, missedPokemon, isPopupOpen, popupData} = state;
   /*
   interface PopupData [{
     popupTitle: string;
@@ -62,40 +63,48 @@ function App() {
         )         
       }
     }
-    setPopupData(popupDatas);
+    dispatch({type: 'SET_POPUP_DATA', popupData: popupDatas});
 
-    setPokemon({
-      ...updatedPokemon,
-      pokedescriptions: pokedescriptions,
-      pokeabilities: abilitiesDatas
+    dispatch({
+      type: 'SET_POKEMON',
+      pokemon: {
+        ...updatedPokemon,
+        pokedescriptions: pokedescriptions,
+        pokeabilities: abilitiesDatas
+      }
     });
-
     };
 
     fetchPokemonDetails();
-  }, [pokeId])
+  }, [pokeId, dispatch])
 
 
   const handleSetPokeId = async () => {
     const poke_id = Math.floor(Math.random() * 900) + 1;
-    setPokeId(poke_id);
+    dispatch({type: 'SET_POKE_ID', pokeId: poke_id});
   }
 
 
   const showPopup = (index) => {
-    setPopupData(popupData.map((item, i) => ({
-      ...item,
-      selected: i === index
-    })));
-    setIsPopupOpen(true);
+    dispatch({
+      type: 'SET_POPUP_DATA',
+      popupData: popupData.map((item, i) => ({
+        ...item,
+        selected: i === index
+      }))
+    });
+    dispatch({type: 'SET_POPUP_OPEN', isPopupOpen: true});
   }
 
   const closePopup = () => {
-    setPopupData(popupData.map((item) => ({
-      ...item,
-      selected: false
-    })));
-    setIsPopupOpen(false)
+    dispatch({
+      type: 'SET_POPUP_DATA',
+      popupData: popupData.map((item) => ({
+        ...item,
+        selected: false
+      }))
+    });
+    dispatch({type: 'SET_POPUP_OPEN', isPopupOpen: false});
   }
 
 
