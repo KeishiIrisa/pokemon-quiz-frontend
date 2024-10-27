@@ -1,7 +1,10 @@
 import { ChevronRight, Delete } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useGameContext } from "../GameContext";
 
 const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSetIsHiddenToFalse, onAnswerSubmit, onSetPokeId}) => {
+    const {state, dispatch} = useGameContext();
+    const {pokemon} = state;
     const [currentAnswer, setCurrentAnswer] = useState("");
     const [isSkipped, setIsSkipped] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
@@ -23,6 +26,7 @@ const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSet
         if (isCorrect) {
             setIsWrong(!isCorrect);
             setIsCorrect(isCorrect);
+            dispatch({type: 'ADD_COLLECTED_POKEMON', pokemon})
         } else {
             setIsWrong(!isCorrect);
             setIsCorrect(isCorrect);
@@ -44,6 +48,7 @@ const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSet
     const handleSkipQuestion = () => {
         onSetIsHiddenToFalse();
         setIsSkipped(true);
+        dispatch({type: 'ADD_MISSED_POKEMON', pokemon});
         setTimeout(() => {
             onSetPokeId();
         }, 1000);
