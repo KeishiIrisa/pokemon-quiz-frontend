@@ -77,7 +77,7 @@ function App() {
 
 
   const handleSetPokeId = async () => {
-    const poke_id = Math.floor(Math.random() * 649) + 1;
+    const poke_id = Math.floor(Math.random() * 900) + 1;
     setPokeId(poke_id);
   }
 
@@ -104,9 +104,6 @@ function App() {
       {/* Hero Section */}
       <div className="text-center space-y-8">
         <h1 className="text-5xl font-bold">Learn English With Pokemon!</h1>
-        <p className="text-gray-700">
-          Enjoy pokemon quiz!
-        </p>
         <button
           className="bg-black text-white hover:bg-gray-700 flex mx-auto rounded-xl py-4 px-8"
           type="button"
