@@ -5,4 +5,10 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   base: process.env.GITHUB_PAGES ? "pokemon-quiz-frontend" : "./",
   plugins: [react()],
+  server: {
+    headers: {
+      "Permissions-Policy":
+        "geolocation=(self), microphone=(), camera=(), fullscreen=(), payment=()",
+    },
+  },
 });
