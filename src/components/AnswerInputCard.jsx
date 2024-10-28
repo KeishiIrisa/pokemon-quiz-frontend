@@ -2,9 +2,9 @@ import { ChevronRight, Delete } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useGameContext } from "../GameContext";
 
-const AnswerInputCard = ({pokeId, answer_candidates, pokemon_name_ja_name, onSetIsHiddenToFalse, onAnswerSubmit, onSetPokeId}) => {
+const AnswerInputCard = ({answer_candidates, pokemon_name_ja_name, onSetIsHiddenToFalse, onAnswerSubmit, onSetPokeId}) => {
     const {state, dispatch} = useGameContext();
-    const {pokemon} = state;
+    const {pokeId, pokemon} = state;
     const [currentAnswer, setCurrentAnswer] = useState("");
     const [isSkipped, setIsSkipped] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);

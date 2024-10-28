@@ -2,7 +2,7 @@ import { Languages } from "lucide-react";
 import React, {useEffect, useState} from "react";
 import LanguageToggleButton from "./LanguageToggleButton";
 
-const PokemonDescriptionCard = ({ pokemon, pokeId }) => {
+const PokemonDescriptionCard = ({ pokemon, pokeId}) => {
     const [isEnglish, setIsEnglish] = useState(true);
 
     useEffect(() => {

@@ -1,28 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useGameContext } from "../GameContext";
+import GameOptionCard from "../components/GameOptionCard";
 
 const Home = () => {
     const navigate = useNavigate();
     const { fetchPokemonDetails, dispatch} = useGameContext();
 
-    const startGame = async () => {
-      const poke_id = Math.floor(Math.random() * 900) + 1;
-      dispatch({type: 'SET_POKE_ID', pokeId: poke_id});
-      await fetchPokemonDetails(poke_id);
-      navigate('/game');
-    };
-
     return (
-        <div className="text-center space-y-8">
-          <h1 className="text-5xl font-bold">Learn English With Pokemon!</h1>
-          <button
-            className="bg-black text-white hover:bg-gray-700 flex mx-auto rounded-xl py-4 px-8"
-            type="button"
-            onClick={startGame}
-          >
-            Start Game
-          </button>
+        <div className="flex justify-center">
+          {/* container */}
+          <div className="card">
+            <h1 className="flex justify-center">ポケモン英語クイズ</h1>
+            <div className="flex justify-center space-x-6">
+              <GameOptionCard play_mode={"60seconds"} />
+              <GameOptionCard play_mode={"120seconds"} />
+              <GameOptionCard play_mode={"test"} />
+            </div>
+          </div>
         </div>
       ); 
 };

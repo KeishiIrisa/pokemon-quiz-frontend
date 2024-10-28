@@ -1,38 +1,40 @@
 import React, { useEffect, useState } from "react";
+import { useGameContext } from "../GameContext";
 import { generateAnswerCandidates, getRandomKatakanaCharacter } from "../utils/pokemonUtils";
 import AnswerInputCard from "./AnswerInputCard";
 
-const PokemonQuizCard = ({pokeId, pokemon, onSetPokeId}) => {
+const PokemonQuizCard = ({onSetPokeId}) => {
     const [isAnswerCorrect, setIsAnswerCorrect] = useState(null);
     const [answerCandidates, setAnswerCandidates] = useState([]);
     const [pokemonNameJaName, setPokemonNameJaName] = useState(null);
     const [isImgHidden, setIsImgHidden] = useState(true);
+    const {state} = useGameContext();
+    const {pokemon, pokeId} = state;
 
     useEffect(() => {
         setIsAnswerCorrect(null);
         setAnswerCandidates([]);
         setPokemonNameJaName(null);
         setIsImgHidden(true);
-        if (pokemon) {
-            const pokemon_name_ja = pokemon.pokespecies.names.find(entry => entry.language.name === 'ja-Hrkt') || null;
-            const name = pokemon_name_ja ? pokemon_name_ja.name : null;
-            setPokemonNameJaName(name)
-    
-            if (name) {
-                const answer = name.split('');
-                const candidates = generateAnswerCandidates(answer);
-                setAnswerCandidates(candidates);
-            }
-        }
 
-    }, [pokemon, pokeId]);//this is executed when only pokemon is changed
+
+        const pokemon_name_ja = pokemon.pokespecies.names.find(
+            (entry) => entry.language.name === "ja-Hrkt"
+            ) || null;
+        const name = pokemon_name_ja ? pokemon_name_ja.name : null;
+        setPokemonNameJaName(name)
+        const answer = name.split('');
+        const candidates = generateAnswerCandidates(answer);
+        setAnswerCandidates(candidates);
+
+    }, [pokeId, pokemon]);//this is executed when only pokemon is changed
 
     useEffect(() => {
         if (isAnswerCorrect) {
             setIsImgHidden(false);
             const timer = setTimeout(() => {
                 onSetPokeId();
-            }, 1000);
+            }, 800);
 
             return () => clearTimeout(timer);
         } else if (!isAnswerCorrect) {

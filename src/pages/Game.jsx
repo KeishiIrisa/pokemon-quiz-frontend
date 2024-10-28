@@ -65,13 +65,13 @@ const Game = () => {
   // }
 
   return (
-    <div className="bg-gray-100 min-h-screen pt-16 pb-8 space-y-8">
+    <div className="min-h-screen pt-16 pb-8 space-y-8">
       {/* タイマー表示 */}
       <div className="text-center">
         <h2 className="text-2xl font-bold">Time Left: {timeLeft} seconds</h2>
       </div>
       {/* quiz card */}
-      <PokemonQuizCard pokeId={pokeId} pokemon={pokemon} onSetPokeId={handleSetPokeId} />
+      <PokemonQuizCard onSetPokeId={handleSetPokeId} />
       {/* details card */}
       <PokemonDetailsCard pokemon={pokemon} showPopup={showPopup} />
       {/* ポケモン解説カード */}

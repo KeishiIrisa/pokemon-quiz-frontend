@@ -65,7 +65,7 @@ export const GameProvider = ({ children }) => {
   const fetchPokemonDetails = useCallback(async (pokeId) => {
     if (!pokeId) return;
 
-    // exucute both fetch requests simultaneously
+    // execute both fetch requests simultaneously
     const [pokemonData, speciesData] = await Promise.all([
       fetchPokemon(pokeId),
       fetchPokemonSpecies(pokeId)
