@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "http://keishiirisa.github.io/pokemon-quiz-frontend",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
