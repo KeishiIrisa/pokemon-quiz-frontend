@@ -1,12 +1,6 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useGameContext } from "../GameContext";
 import GameOptionCard from "../components/GameOptionCard";
 
 const Home = () => {
-    const navigate = useNavigate();
-    const { fetchPokemonDetails, dispatch} = useGameContext();
-
     return (
         <div className="flex justify-center">
           {/* container */}

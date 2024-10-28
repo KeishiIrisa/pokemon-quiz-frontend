@@ -31,7 +31,7 @@ const GameOptionCard = ({play_mode}) => {
         dispatch({type: 'SET_POKE_ID', pokeId: poke_id});
         dispatch({type: 'SET_TIME_LEFT', timeLeft: play_time});
         await fetchPokemonDetails(poke_id);
-        navigate("/game");
+        navigate("/pokemon-quiz-frontend/game");
     }
 
     return (

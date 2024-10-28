@@ -10,7 +10,7 @@ const ResultCard = () => {
     const {collectedPokemon, missedPokemon} = state;
 
     const backToHome = () => {
-        navigate("/");
+        navigate("/pokemon-quiz-frontend/");
     }
 
     return (

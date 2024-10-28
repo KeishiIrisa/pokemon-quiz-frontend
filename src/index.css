@@ -42,9 +42,9 @@ body {
 
 .blur {
     /* prod用1 */
-    filter: grayscale(80%) blur(15px);
+    /* filter: grayscale(80%) blur(15px); */
     /* prod用2 */
-    /* filter: blur(15px); */
+    filter: blur(15px);
     /* 開発用 */
     /* filter: blur(0px); */
 }

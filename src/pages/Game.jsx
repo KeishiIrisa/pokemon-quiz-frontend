@@ -27,7 +27,7 @@ const Game = () => {
     if (timeLeft <= 0) {
       clearInterval(timer);
       dispatch({ type: 'FINISH_GAME' });
-      navigate('/result');
+      navigate("/pokemon-quiz-frontend/result");
     }
 
     return () => clearInterval(timer);

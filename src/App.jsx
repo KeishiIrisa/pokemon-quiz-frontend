@@ -4,14 +4,16 @@ import Game from './pages/Game';
 import Result from './pages/Result';
 import { GameProvider } from './GameContext';
 
+const APP_NAME = "pokemon-quiz-frontend"
+
 const App = () => {
   return (
     <GameProvider>
       <Router >
         <Routes>
-          <Route path="pokemon-quiz-frontend/" element={<Home />} />
-          <Route path="pokemon-quiz-frontend/game" element={<Game />} />
-          <Route path="pokemon-quiz-frontend/result" element={<Result />} />
+          <Route path={APP_NAME + '/'} element={<Home />} />
+          <Route path={APP_NAME + '/game'} element={<Game />} />
+          <Route path={APP_NAME + '/result'} element={<Result />} />
         </Routes>
       </Router>
     </GameProvider>
