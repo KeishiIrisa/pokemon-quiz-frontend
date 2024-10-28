@@ -7,11 +7,11 @@ import { GameProvider } from './GameContext';
 const App = () => {
   return (
     <GameProvider>
-      <Router basename={process.env.PUBLIC_URL}>
+      <Router >
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/game" element={<Game />} />
-          <Route path="/result" element={<Result />} />
+          <Route path="pokemon-quiz-frontend/" element={<Home />} />
+          <Route path="pokemon-quiz-frontend/game" element={<Game />} />
+          <Route path="pokemon-quiz-frontend/result" element={<Result />} />
         </Routes>
       </Router>
     </GameProvider>

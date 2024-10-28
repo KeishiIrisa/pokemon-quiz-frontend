@@ -5,4 +5,7 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   base: process.env.GITHUB_PAGES ? "pokemon-quiz-frontend" : "./",
   plugins: [react()],
+  build: {
+    outDir: "docs", // ビルド出力ディレクトリを 'docs' に変更
+  },
 });
