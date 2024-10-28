@@ -8,15 +8,15 @@ const GameOptionCard = ({play_mode}) => {
     const { fetchPokemonDetails, dispatch } = useGameContext();
 
     const CARD_CONTENT = {
-        "60seconds": {
-            "title": "60秒コース",
-            "description": "制限時間は60秒。何匹答えられるか、君のポケモン知識と集中力が試される！",
-            "play_time": 60
+        "180seconds": {
+            "title": "3分コース",
+            "description": "制限時間は3分。何匹答えられるか、英語を読んでポケモンを解き明かせ！",
+            "play_time": 180
         },
-        "120seconds": {
-            "title": "120秒コース",
-            "description": "制限時間は120秒。何匹答えられるか、君のポケモン知識と集中力が試される！",
-            "play_time": 120
+        "300seconds": {
+            "title": "5分コース",
+            "description": "制限時間は5分。何匹答えられるか、特性やタイプからポケモンを当てよう！",
+            "play_time": 300
         },
         "test": {
             "title": "テスト",
@@ -46,7 +46,7 @@ const GameOptionCard = ({play_mode}) => {
             {/* description */}
             <h4 className="text-white">{CARD_CONTENT[play_mode].description}</h4>
             {/* start button */}
-            <button className="border-2 border-white bg-gradient-to-b from-blue-400 to-blue-600 text-white font-black p-2 rounded-lg" onClick={startGame}>スタート</button>
+            <button className="blue-button" onClick={startGame}>スタート</button>
         </div>
     )
 

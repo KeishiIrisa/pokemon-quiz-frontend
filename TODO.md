@@ -19,3 +19,7 @@
 # Tier B
 
 - make ui more attractive
+
+# current error
+
+- when submit correct answer and fetch new pokemon data, the answer candidates is created twice occasionally

@@ -13,9 +13,8 @@ const Home = () => {
           <div className="card">
             <h1 className="flex justify-center">ポケモン英語クイズ</h1>
             <div className="flex justify-center space-x-6">
-              <GameOptionCard play_mode={"60seconds"} />
-              <GameOptionCard play_mode={"120seconds"} />
-              <GameOptionCard play_mode={"test"} />
+              <GameOptionCard play_mode={"180seconds"} />
+              <GameOptionCard play_mode={"300seconds"} />
             </div>
           </div>
         </div>

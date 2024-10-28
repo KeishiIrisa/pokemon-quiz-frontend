@@ -9,12 +9,16 @@ const ResultCard = () => {
     const {state, dispatch} = useGameContext();
     const {collectedPokemon, missedPokemon} = state;
 
+    const backToHome = () => {
+        navigate("/");
+    }
+
     return (
         <div className="flex justify-center">
             {/* container */}
             <div className="card">
                 {/* game_title */}
-                <h1 className="flex justify-center">60秒コース</h1>
+                <h1 className="flex justify-center">結果発表！</h1>
                 {/* 今回の正解数のコンポーネント */}
                 {/* 正解したポケモン一覧 */}
                 <ParagraphTitle title={"正解したポケモン一覧"} />
@@ -30,6 +34,8 @@ const ResultCard = () => {
                         <PokemonCard key={index} pokemon={pokemon} />
                     ))}
                 </div>
+                {/* トップに戻るボタン */}
+                <button className="blue-button" onClick={backToHome}>トップに戻る</button>
             </div>
         </div>
     )
