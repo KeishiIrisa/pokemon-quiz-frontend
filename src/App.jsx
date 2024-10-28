@@ -7,7 +7,7 @@ import { GameProvider } from './GameContext';
 const App = () => {
   return (
     <GameProvider>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/game" element={<Game />} />
